@@ -1053,45 +1053,61 @@ overlay.querySelectorAll('.nav-overlay-link').forEach(l => {
   l.addEventListener('click', closeMenu);
 });
 
-/* ── Align service track with content ── */
-function alignTrack() {
-  // Measure the actual content left edge — the first child div inside services-head
-  const headContent = document.querySelector('.services-head > div');
-  const track       = document.querySelector('.services-track');
-  if (!headContent || !track) return;
-  const left = headContent.getBoundingClientRect().left;
-  track.style.paddingLeft = left + 'px';
-}
-alignTrack();
-window.addEventListener('resize', alignTrack);
+/* ── Service cards — align + JS snap ── */
 const track = document.getElementById('svcTrack');
 const dots  = document.querySelectorAll('#svcDots .s-dot');
-let isDown = false, startX, scrollLeft;
 
-track.addEventListener('mousedown', e => {
-  isDown = true; track.style.cursor = 'grabbing';
-  startX = e.pageX - track.offsetLeft;
-  scrollLeft = track.scrollLeft;
-});
-track.addEventListener('mouseleave', () => { isDown = false; track.style.cursor = 'grab'; });
-track.addEventListener('mouseup',    () => { isDown = false; track.style.cursor = 'grab'; });
-track.addEventListener('mousemove',  e => {
-  if (!isDown) return; e.preventDefault();
-  track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.2;
-});
-
-track.addEventListener('scroll', () => {
+function getStep() {
   const card = track.querySelector('.svc-card');
-  const step = card.offsetWidth + 16;
-  const idx  = Math.round(track.scrollLeft / step);
-  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  return card ? card.offsetWidth + 16 : 516;
+}
+function alignTrack() {
+  const head = document.querySelector('.services-head > div');
+  const inner = document.querySelector('.services-track');
+  if (!head || !inner) return;
+  inner.style.paddingLeft = head.getBoundingClientRect().left + 'px';
+}
+function snapTo(i, smooth = true) {
+  const idx = Math.max(0, Math.min(i, dots.length - 1));
+  track.scrollTo({ left: idx * getStep(), behavior: smooth ? 'smooth' : 'instant' });
+  dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+}
+function nearestIdx() {
+  return Math.round(track.scrollLeft / getStep());
+}
+
+alignTrack();
+window.addEventListener('resize', () => { alignTrack(); snapTo(nearestIdx(), false); });
+
+// Dots
+dots.forEach(dot => dot.addEventListener('click', () => snapTo(parseInt(dot.dataset.i))));
+
+// Update dots on scroll
+let snapTimer, isDragging = false;
+track.addEventListener('scroll', () => {
+  dots.forEach((d, i) => d.classList.toggle('active', i === nearestIdx()));
+  clearTimeout(snapTimer);
+  if (!isDragging) snapTimer = setTimeout(() => snapTo(nearestIdx()), 150);
 }, { passive: true });
 
-dots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    const card = track.querySelector('.svc-card');
-    track.scrollTo({ left: parseInt(dot.dataset.i) * (card.offsetWidth + 16), behavior: 'smooth' });
-  });
+// scrollend (modern browsers)
+track.addEventListener('scrollend', () => { if (!isDragging) snapTo(nearestIdx()); });
+
+// Mouse drag
+let startX, startScroll;
+track.addEventListener('mousedown', e => {
+  isDragging = true; track.style.cursor = 'grabbing';
+  startX = e.pageX; startScroll = track.scrollLeft;
+  clearTimeout(snapTimer);
+});
+window.addEventListener('mouseup', () => {
+  if (!isDragging) return;
+  isDragging = false; track.style.cursor = 'grab';
+  snapTo(nearestIdx());
+});
+track.addEventListener('mousemove', e => {
+  if (!isDragging) return; e.preventDefault();
+  track.scrollLeft = startScroll - (e.pageX - startX);
 });
 </script>
 
