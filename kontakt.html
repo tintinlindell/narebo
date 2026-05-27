@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 :root {
   --moss:#182415; --moss-mid:#35502C; --moss-light:#D0DCCA; --moss-pale:#E4EDE0;
   --amber:#C48C2A; --amber-light:#F0E4C4;
@@ -25,6 +25,7 @@ a { text-decoration:none; color:inherit; }
 .section-alt { padding:96px 0; background:var(--lin-warm); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .eyebrow { font-family:var(--fb); font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); display:flex; align-items:center; gap:10px; margin-bottom:16px; }
 .eyebrow::before { content:''; width:24px; height:1px; background:currentColor; flex-shrink:0; }
+h1 { font-family:var(--fd); font-weight:300; font-size:clamp(36px,5vw,68px); line-height:1.06; letter-spacing:-.01em; }
 h2 { font-family:var(--fd); font-weight:400; font-size:clamp(28px,3.5vw,44px); line-height:1.12; }
 .amber-rule { display:flex; align-items:center; gap:16px; margin:0 0 40px; }
 .amber-rule-line { flex:0 0 40px; height:1px; background:var(--amber); }
@@ -263,6 +264,17 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 .dir-title { font-family:var(--fd); font-size:19px; font-weight:500; color:var(--ink); margin-bottom:10px; }
 .dir-text { font-family:var(--fb); font-size:14px; color:var(--ink-2); line-height:1.75; }
 
+/* Page hero */
+.page-hero { padding-top:var(--nav-h); position:relative; overflow:hidden; min-height:480px; display:flex; align-items:flex-end; }
+.page-hero-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 50%; transition:transform 1.2s var(--ease); }
+.page-hero-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(4,8,3,.88) 0%, rgba(4,8,3,.45) 50%, rgba(4,8,3,.2) 100%); }
+.page-hero-content { position:relative; z-index:1; padding:80px 0; width:100%; }
+.page-hero-eyebrow { font-family:var(--fb); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.page-hero-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--amber); flex-shrink:0; }
+.page-hero-h1 { color:#fff; margin-bottom:16px; animation:fadeUp .9s var(--ease) both; }
+.page-hero-sub { font-family:var(--fd); font-style:italic; font-size:clamp(16px,2vw,22px); color:rgba(255,255,255,.5); line-height:1.5; margin-top:12px; }
+@media (max-width:768px) { .page-hero { min-height:360px; } .page-hero-content { padding:56px 0; } }
+
 /* Reveal */
 .reveal { opacity:0; transform:translateY(32px); transition:opacity .85s var(--ease), transform .85s var(--ease); }
 .reveal.from-right { transform:translateX(28px); }
@@ -360,15 +372,20 @@ footer { background:var(--moss); }
 <div class="nav-scrim" id="navScrim"></div>
 
 
-<!-- HEADER -->
-<div class="page-header wrap">
-  <div class="eyebrow">Kontakt & karta</div>
-  <h1>Hitta hit</h1>
-  <p>Strax väster om Lidköping, längs vägen mot Läckö</p>
-</div>
+<!-- ═══ HERO ═══ -->
+<section class="page-hero">
+  <img src="https://www.narebo.se/wp-content/uploads/2021/01/DSC_0125-scaled.jpg"
+       alt="Närebo Gårdshotell" class="page-hero-bg">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content wrap">
+    <div class="page-hero-eyebrow">Kontakt & karta</div>
+    <h1 class="page-hero-h1">Hitta hit</h1>
+    <p class="page-hero-sub">Strax väster om Lidköping, längs vägen mot Läckö</p>
+  </div>
+</section>
 
 <!-- MAP -->
-<div class="wrap" style="margin-bottom:96px;">
+<div class="wrap" style="padding-top:96px; margin-bottom:96px;">
   <div class="map-wrap reveal">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2122.5!2d13.09817!3d58.52067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTjCsDMxJzE0LjQiTiAxM8KwMDUnNTMuNCJF!5e0!3m2!1ssv!2sse!4v1"

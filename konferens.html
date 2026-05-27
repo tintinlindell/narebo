@@ -10,7 +10,7 @@
 <style>
 /* ─── Reset ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 /* ─── Tokens ─── */
 :root {
@@ -84,28 +84,33 @@ h3 { font-family:var(--fd); font-weight:500; font-size:20px; line-height:1.2; ma
 .btn-rise-amber:hover::before { transform:scaleY(1); }
 .btn-rise-amber:hover { color:var(--amber); border-color:var(--amber); }
 .btn-bracket {
-  position:relative; display:inline-flex; align-items:center;
-  font-family:var(--fb); font-size:13px; letter-spacing:.05em;
-  background:none; border:none; color:var(--ink);
-  padding:10px 22px; cursor:pointer; transition:color .25s; white-space:nowrap;
+  display: inline-flex; align-items: center;
+  font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
+  background: none; border: none; color: var(--ink);
+  padding: 10px 0; cursor: pointer; transition: color .25s;
+  white-space: nowrap;
 }
-.btn-bracket::before, .btn-bracket::after { content:''; position:absolute; top:0; bottom:0; width:0; border:1.5px solid var(--amber); opacity:0; transition:width .32s var(--ease), opacity .15s; }
-.btn-bracket::before { left:0; border-right:none; }
-.btn-bracket::after  { right:0; border-left:none; }
-.btn-bracket:hover::before, .btn-bracket:hover::after { width:12px; opacity:1; }
-.btn-bracket:hover { color:var(--moss); }
+.btn-bracket::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.btn-bracket:hover { color: var(--moss); }
+.btn-bracket:hover::after { opacity: 1; transform: translateX(0); }
 .btn-bracket-light {
-  position:relative; display:inline-flex; align-items:center;
-  font-family:var(--fb); font-size:13px; letter-spacing:.05em;
-  background:none; border:none; color:rgba(255,255,255,.7);
-  padding:10px 22px; cursor:pointer; transition:color .25s; white-space:nowrap;
+  display: inline-flex; align-items: center;
+  font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
+  background: none; border: none; color: rgba(255,255,255,.7);
+  padding: 10px 0; cursor: pointer; transition: color .25s;
+  white-space: nowrap;
 }
-.btn-bracket-light::before, .btn-bracket-light::after { content:''; position:absolute; top:0; bottom:0; width:0; border:1.5px solid var(--amber); opacity:0; transition:width .32s var(--ease), opacity .15s; }
-.btn-bracket-light::before { left:0; border-right:none; }
-.btn-bracket-light::after  { right:0; border-left:none; }
-.btn-bracket-light:hover::before, .btn-bracket-light::after:hover { width:12px; opacity:1; }
-.btn-bracket-light:hover::before, .btn-bracket-light:hover::after { width:12px; opacity:1; }
-.btn-bracket-light:hover { color:#fff; }
+.btn-bracket-light::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.btn-bracket-light:hover { color: #fff; }
+.btn-bracket-light:hover::after { opacity: 1; transform: translateX(0); }
 
 /* ─── Nav ─── */
 /* ═══════════════════════════════════════
@@ -329,9 +334,9 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 
 /* ─── Capacity strip ─── */
 .cap-strip { background:var(--moss); border-bottom:1px solid rgba(255,255,255,.08); }
-.cap-strip-inner { display:grid; grid-template-columns:repeat(4,1fr); }
+.cap-strip-inner { display:grid; grid-template-columns:repeat(6,1fr); }
 .cap-item {
-  padding:36px 32px; border-right:1px solid rgba(255,255,255,.08);
+  padding:28px 20px; border-right:1px solid rgba(255,255,255,.08);
   transition:background .25s;
 }
 .cap-item:last-child { border-right:none; }
@@ -471,9 +476,9 @@ footer { background:var(--moss); }
   .intro-img, .intro-img-ph { height:380px; }
   .booking-grid { grid-template-columns:1fr; gap:40px; }
   .footer-top { grid-template-columns:1fr 1fr; gap:36px; }
-  .cap-strip-inner { grid-template-columns:repeat(2,1fr); }
-  .cap-item:nth-child(2) { border-right:none; }
-  .cap-item:nth-child(1), .cap-item:nth-child(2) { border-bottom:1px solid rgba(255,255,255,.08); }
+  .cap-strip-inner { grid-template-columns:repeat(3,1fr); }
+  .cap-item:nth-child(3) { border-right:none; }
+  .cap-item:nth-child(-n+3) { border-bottom:1px solid rgba(255,255,255,.08); }
 }
 @media (max-width: 768px) {
   :root { --nav-h:72px; }
@@ -481,7 +486,7 @@ footer { background:var(--moss); }
   .section, .section-alt, .section-dark { padding:64px 0; }
   .page-hero { min-height:360px; }
   .page-hero-content { padding:56px 0; }
-  .cap-strip-inner { grid-template-columns:repeat(2,1fr); }
+  .cap-strip-inner { grid-template-columns:repeat(3,1fr); }
   .features-grid { grid-template-columns:1fr; }
   .feature-item:nth-child(even) { border-right:1px solid var(--border); }
   .feature-item:nth-last-child(-n+2) { border-bottom:1px solid var(--border); }
@@ -494,8 +499,9 @@ footer { background:var(--moss); }
 }
 @media (max-width: 480px) {
   .wrap { padding:0 16px; }
-  .cap-strip-inner { grid-template-columns:1fr 1fr; }
-  .cap-item { padding:24px 18px; }
+  .cap-strip-inner { grid-template-columns:repeat(2,1fr); }
+  .cap-item { padding:20px 14px; }
+  .cap-desc { display:none; }
   .form-wrap { padding:28px 20px; }
 }
 </style>
@@ -566,33 +572,6 @@ footer { background:var(--moss); }
 </section>
 
 
-<!-- ═══ CAPACITY STRIP ═══ -->
-<div class="cap-strip">
-  <div class="wrap">
-    <div class="cap-strip-inner">
-      <div class="cap-item">
-        <div class="cap-label">Biosittning</div>
-        <div class="cap-num">50</div>
-        <div class="cap-desc">Föreläsning, kick-off, presentation</div>
-      </div>
-      <div class="cap-item">
-        <div class="cap-label">Skolsal / gruppbord</div>
-        <div class="cap-num">30</div>
-        <div class="cap-desc">Kurs, workshop, utbildning</div>
-      </div>
-      <div class="cap-item">
-        <div class="cap-label">Styrelse / ledning</div>
-        <div class="cap-num">12</div>
-        <div class="cap-desc">Styrelsemöte, ledningsgrupp</div>
-      </div>
-      <div class="cap-item" style="border-right:none;">
-        <div class="cap-label">Restaurangen</div>
-        <div class="cap-num">70</div>
-        <div class="cap-desc">Större sällskap, kick-off med middag</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <!-- ═══ INTRO ═══ -->
@@ -694,14 +673,26 @@ footer { background:var(--moss); }
         <tbody>
           <tr>
             <td>Biosittning</td>
-            <td><strong>50</strong> gäster</td>
+            <td><strong>42</strong> gäster</td>
             <td>Föreläsning, kick-off, presentation, bolagsstämma</td>
             <td>Konferensrummet</td>
           </tr>
           <tr>
-            <td>Skolsal / gruppbord</td>
-            <td><strong>30</strong> gäster</td>
+            <td>Skolsittning</td>
+            <td><strong>32</strong> gäster</td>
             <td>Kurs, workshop, utbildning, seminar</td>
+            <td>Konferensrummet</td>
+          </tr>
+          <tr>
+            <td>Öar</td>
+            <td><strong>24</strong> gäster</td>
+            <td>Gruppdiskussion, brainstorm, kreativa workshops</td>
+            <td>Konferensrummet</td>
+          </tr>
+          <tr>
+            <td>U-bord</td>
+            <td><strong>20</strong> gäster</td>
+            <td>Workshop, interaktiva möten, presentationer</td>
             <td>Konferensrummet</td>
           </tr>
           <tr>
@@ -894,7 +885,7 @@ footer { background:var(--moss); }
         </div>
         <div class="quickfacts">
           <div class="qf-title">Snabbfakta</div>
-          <div class="qf-row"><span class="qf-key">Max kapacitet</span><span class="qf-val">50 / 70 pers</span></div>
+          <div class="qf-row"><span class="qf-key">Max kapacitet</span><span class="qf-val">42 / 70 pers</span></div>
           <div class="qf-row"><span class="qf-key">Boende på plats</span><span class="qf-val">11 rum & lgh</span></div>
           <div class="qf-row"><span class="qf-key">Frukost</span><span class="qf-val">Ingår vid övernattning</span></div>
           <div class="qf-row"><span class="qf-key">Parkering</span><span class="qf-val">Gratis, stor gårdsplan</span></div>

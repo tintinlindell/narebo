@@ -12,7 +12,7 @@
 <style>
 /* ─── Reset ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 /* ─── Tokens ─── */
 :root {
@@ -40,6 +40,7 @@ html { scroll-behavior: smooth; }
 
 /* ─── Base ─── */
 body {
+  overflow-x: hidden; width: 100%;
   font-family: var(--fb);
   background: var(--lin);
   color: var(--ink);
@@ -66,20 +67,15 @@ a { text-decoration: none; color: inherit; }
 h2 { font-family: var(--fd); font-weight: 400; font-size: clamp(28px, 3.5vw, 44px); line-height: 1.12; }
 h3 { font-family: var(--fd); font-weight: 500; font-size: 21px; line-height: 1.2; }
 .body-text { font-size: 15px; color: var(--ink-2); line-height: 1.85; }
-.price     { font-family: var(--fd); font-size: 28px; font-weight: 500; color: var(--moss); }
-.price-sub { font-family: var(--fb); font-size: 12px; color: var(--ink-3); font-weight: 400; }
 
 /* ─── Buttons ─── */
-
-/* The Rise */
 .btn-rise {
   position: relative; overflow: hidden;
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--fb); font-size: 13px; font-weight: 400; letter-spacing: .06em;
   background: var(--moss); color: #fff; border: 1.5px solid var(--moss);
   padding: 12px 26px; border-radius: 999px; cursor: pointer;
-  z-index: 0; transition: border-color .5s var(--ease);
-  white-space: nowrap;
+  z-index: 0; transition: border-color .5s var(--ease); white-space: nowrap;
 }
 .btn-rise::before {
   content: ''; position: absolute; inset: 0;
@@ -88,17 +84,14 @@ h3 { font-family: var(--fd); font-weight: 500; font-size: 21px; line-height: 1.2
 }
 .btn-rise:hover::before { transform: scaleY(1); }
 .btn-rise:hover { border-color: var(--amber); }
-.btn-rise-sm { padding: 10px 20px; font-size: 12px; }
 
-/* Rise on dark bg */
 .btn-rise-dark {
   position: relative; overflow: hidden;
   display: inline-flex; align-items: center;
   font-family: var(--fb); font-size: 13px; letter-spacing: .06em;
   background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.55);
   padding: 12px 26px; border-radius: 999px; cursor: pointer;
-  z-index: 0; transition: border-color .5s var(--ease);
-  white-space: nowrap;
+  z-index: 0; transition: border-color .5s var(--ease); white-space: nowrap;
 }
 .btn-rise-dark::before {
   content: ''; position: absolute; inset: 0;
@@ -108,48 +101,36 @@ h3 { font-family: var(--fd); font-weight: 500; font-size: 21px; line-height: 1.2
 .btn-rise-dark:hover::before { transform: scaleY(1); }
 .btn-rise-dark:hover { border-color: var(--amber); }
 
-/* The Bracket — fixed: symmetric horizontal padding so brackets don't crowd text */
 .btn-bracket {
-  position: relative;
   display: inline-flex; align-items: center;
   font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
   background: none; border: none; color: var(--ink);
-  padding: 10px 22px;   /* ← equal L+R so brackets sit outside text */
-  cursor: pointer; transition: color .25s;
+  padding: 10px 0; cursor: pointer; transition: color .25s;
   white-space: nowrap;
 }
-.btn-bracket::before, .btn-bracket::after {
-  content: ''; position: absolute; top: 0; bottom: 0; width: 0;
-  border: 1.5px solid var(--amber); opacity: 0;
-  transition: width .32s var(--ease), opacity .15s;
+.btn-bracket::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
 }
-.btn-bracket::before { left: 0;  border-right: none; }
-.btn-bracket::after  { right: 0; border-left: none;  }
-.btn-bracket:hover::before,
-.btn-bracket:hover::after { width: 12px; opacity: 1; }
 .btn-bracket:hover { color: var(--moss); }
+.btn-bracket:hover::after { opacity: 1; transform: translateX(0); }
 
-/* Bracket on dark bg */
 .btn-bracket-light {
-  position: relative;
   display: inline-flex; align-items: center;
   font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
   background: none; border: none; color: rgba(255,255,255,.7);
-  padding: 10px 22px; cursor: pointer; transition: color .25s;
+  padding: 10px 0; cursor: pointer; transition: color .25s;
   white-space: nowrap;
 }
-.btn-bracket-light::before, .btn-bracket-light::after {
-  content: ''; position: absolute; top: 0; bottom: 0; width: 0;
-  border: 1.5px solid rgba(255,255,255,.5); opacity: 0;
-  transition: width .32s var(--ease), opacity .15s;
+.btn-bracket-light::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
 }
-.btn-bracket-light::before { left: 0;  border-right: none; }
-.btn-bracket-light::after  { right: 0; border-left: none;  }
-.btn-bracket-light:hover::before,
-.btn-bracket-light:hover::after { width: 12px; opacity: 1; }
 .btn-bracket-light:hover { color: #fff; }
+.btn-bracket-light:hover::after { opacity: 1; transform: translateX(0); }
 
-/* Hero ghost */
 .btn-ghost-hero {
   display: inline-flex; align-items: center;
   font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
@@ -160,7 +141,7 @@ h3 { font-family: var(--fd); font-weight: 500; font-size: 21px; line-height: 1.2
 .btn-ghost-hero:hover { color: #fff; border-color: rgba(255,255,255,.65); }
 
 /* ═══════════════════════════════════════
-   NAVIGATION — centered logo, side panel
+   NAVIGATION
 ═══════════════════════════════════════ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -173,17 +154,11 @@ nav.solid {
   border-bottom: 1px solid rgba(255,255,255,.08);
   box-shadow: 0 2px 24px rgba(0,0,0,.2);
 }
-
 .nav-inner {
   display: flex; align-items: center; width: 100%;
   padding: 0 48px; position: relative;
 }
-
-/* Left: language switcher — horizontal */
-.nav-left {
-  display: flex; flex-direction: row; align-items: center;
-  gap: 10px;
-}
+.nav-left { display: flex; flex-direction: row; align-items: center; gap: 10px; }
 .nav-lang-item {
   font-family: var(--fb); font-size: 10px; letter-spacing: .12em;
   text-transform: uppercase; color: rgba(255,255,255,.45);
@@ -201,7 +176,6 @@ nav.solid .nav-lang-item:hover { color: #fff; }
 nav.solid .nav-lang-active { color: rgba(255,255,255,.95); }
 nav.solid .nav-lang-active::after { background: rgba(255,255,255,.5); }
 
-/* Center: Logo */
 .nav-logo {
   position: absolute; left: 50%; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center;
@@ -216,36 +190,13 @@ nav.solid .nav-lang-active::after { background: rgba(255,255,255,.5); }
   letter-spacing: .18em; text-transform: uppercase;
   color: rgba(255,255,255,.60); line-height: 1;
 }
-
-/* Right: CTAs + circle hamburger */
 .nav-right { display: flex; align-items: center; gap: 28px; margin-left: auto; }
-
-.nav-cta {
-  font-family: var(--fb); font-size: 10px; letter-spacing: .15em;
-  text-transform: uppercase; color: rgba(255,255,255,.65);
-  display: inline-flex; flex-direction: column; align-items: flex-start;
-  cursor: pointer; transition: color .2s;
-}
-.nav-cta::after {
-  content: ''; display: block; width: 100%; height: 1px;
-  background: rgba(255,255,255,.3); margin-top: 3px;
-  transition: background .2s;
-}
-.nav-cta:hover { color: rgba(255,255,255,.95); }
-.nav-cta:hover::after { background: rgba(255,255,255,.65); }
-nav.solid .nav-cta { color: rgba(255,255,255,.65); }
-nav.solid .nav-cta::after { background: rgba(255,255,255,.3); }
-nav.solid .nav-cta:hover { color: #fff; }
-nav.solid .nav-cta:hover::after { background: rgba(255,255,255,.7); }
-
-/* Circle hamburger — slightly larger */
 .nav-hamburger-circle {
   width: 54px; height: 54px; border-radius: 50%;
   border: 1.5px solid rgba(255,255,255,.35);
   background: transparent; flex-shrink: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; cursor: pointer;
-  transition: border-color .25s;
+  gap: 6px; cursor: pointer; transition: border-color .25s;
 }
 .nav-hamburger-circle span {
   display: block; width: 20px; height: 1.5px;
@@ -256,24 +207,15 @@ nav.solid .nav-cta:hover::after { background: rgba(255,255,255,.7); }
 nav.solid .nav-hamburger-circle { border-color: rgba(255,255,255,.35); }
 nav.solid .nav-hamburger-circle span { background: rgba(255,255,255,.85); }
 nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
-
-/* Active (X) state */
 .nav-hamburger-circle.active span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
 .nav-hamburger-circle.active span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 
-/* ── NAV PANEL ── */
 .nav-panel {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: min(520px, 75vw);
-  height: 100vh;
-  z-index: 300;
-  background: #182415;
-  transition: right .55s cubic-bezier(.16,1,.3,1);
+  position: fixed; top: 0; right: -100%;
+  width: min(520px, 75vw); height: 100vh; z-index: 300;
+  background: #182415; transition: right .55s cubic-bezier(.16,1,.3,1);
 }
 .nav-panel.open { right: 0; }
-
 .nav-panel-close {
   position: absolute; top: 30px; right: 32px; z-index: 10;
   background: none; border: none; cursor: pointer;
@@ -282,19 +224,14 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
   color: rgba(255,255,255,.4); transition: color .2s; padding: 4px;
 }
 .nav-panel-close:hover { color: rgba(255,255,255,.9); }
-
 .nav-panel-link {
-  display: block;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(31px, 4.2vw, 48px);
-  font-weight: 300;
-  color: rgba(255,255,255,.85);
-  line-height: 1; padding: 11px 0;
+  display: block; font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(31px, 4.2vw, 48px); font-weight: 300;
+  color: rgba(255,255,255,.85); line-height: 1; padding: 11px 0;
   opacity: 0; transform: translateX(-18px);
   transition: color .15s, padding-left .18s cubic-bezier(.16,1,.3,1), opacity .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1);
 }
 .nav-panel-link:hover { color: #fff; padding-left: 10px; }
-
 .nav-panel.open .nav-panel-link             { opacity: 1; transform: translateX(0); }
 .nav-panel.open .nav-panel-link:nth-child(1){ transition-delay: .06s; }
 .nav-panel.open .nav-panel-link:nth-child(2){ transition-delay: .12s; }
@@ -303,7 +240,6 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 .nav-panel.open .nav-panel-link:nth-child(5){ transition-delay: .30s; }
 .nav-panel.open .nav-panel-link:nth-child(6){ transition-delay: .36s; }
 .nav-panel:not(.open) .nav-panel-link { transition-delay: 0s !important; }
-
 .nav-panel-cta-link {
   display: inline-flex; flex-direction: column; align-items: flex-start;
   font-family: 'DM Sans', sans-serif; font-size: 11px;
@@ -316,52 +252,29 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 }
 .nav-panel-cta-link:hover { color: #C48C2A; }
 .nav-panel-cta-link:hover::after { background: #C48C2A; }
-
 .nav-scrim {
   position: fixed; inset: 0; z-index: 299;
   background: rgba(0,0,0,.45); opacity: 0; visibility: hidden;
   transition: opacity .45s, visibility .45s;
 }
 .nav-scrim.open { opacity: 1; visibility: visible; }
-
 .nav-panel-links-inner { padding: 0 56px; }
 .nav-panel-foot { padding: 36px 56px 52px; }
 .nav-panel-sep { position: absolute; top: 0; height: 1px; background: rgba(255,255,255,.12); left: 56px; right: 56px; }
-
-@media (max-width: 768px) {
-  .nav-inner { padding: 0 16px; }
-  .nav-hamburger-circle { width: 44px; height: 44px; gap: 5px; }
-  .nav-hamburger-circle span { width: 17px; }
-}
-@media (max-width: 600px) {
-  .nav-panel { width: 100%; }
-  .nav-panel-links-inner { padding: 0 36px; }
-  .nav-panel-foot { padding: 28px 36px 44px; }
-  .nav-panel-sep { left: 36px; right: 36px; }
-  .nav-panel-link { font-size: clamp(28px, 7vw, 40px); }
-}
-
 
 /* ═══════════════════════════════════════
    HERO
 ═══════════════════════════════════════ */
 .hero {
   height: 100svh; min-height: 640px;
-  position: relative; display: flex; align-items: flex-end;
-  overflow: hidden;
+  position: relative; display: flex; align-items: flex-end; overflow: hidden;
 }
 .hero-bg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 140%;        /* extra height gives room to scroll */
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  will-change: transform;
-  transform-origin: top center;
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 140%;
+  object-fit: cover; object-position: center top;
+  display: block; will-change: transform; transform-origin: top center;
 }
-/* Grain on the hero section itself instead */
 .hero::before {
   content: ''; position: absolute; inset: 0; z-index: 1;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
@@ -375,8 +288,7 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 }
 .hero-content {
   position: relative; z-index: 1;
-  padding-bottom: 88px;
-  width: 100%; /* must be full width so wrap centering + padding gives correct left edge */
+  padding-bottom: 88px; width: 100%;
 }
 .hero-eyebrow {
   font-family: var(--fb); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
@@ -388,8 +300,7 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
   font-family: var(--fd); font-weight: 300;
   font-size: clamp(52px, 8vw, 96px);
   line-height: 1.0; letter-spacing: .01em;
-  color: #fff; margin-bottom: 22px;
-  max-width: 700px;                /* left-aligned, no centering */
+  color: #fff; margin-bottom: 22px; max-width: 700px;
   animation: fadeUp .9s var(--ease) both;
 }
 .hero-sub {
@@ -410,132 +321,26 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 /* ─── Info Strip ─── */
 .info-strip { background: var(--lin-warm); border-bottom: 1px solid var(--border); }
 .info-inner {
-  display: flex; align-items: center;
-  justify-content: space-between; /* spread evenly across full width */
-  height: 52px;
-  font-family: var(--fb); font-size: 12px; color: var(--ink-2);
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px; font-family: var(--fb); font-size: 12px; color: var(--ink-2);
   overflow-x: auto; -webkit-overflow-scrolling: touch;
 }
 .info-inner::-webkit-scrollbar { display: none; }
 .info-item { display: flex; align-items: center; gap: 7px; white-space: nowrap; flex-shrink: 0; }
 .info-icon { width: 13px; height: 13px; stroke: var(--ink-3); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 .info-sep  { width: 1px; height: 16px; background: var(--border); flex-shrink: 0; }
-.info-right { margin-left: 0; } /* no longer needed with space-between */
 
-/* ═══════════════════════════════════════
-   SERVICE CARDS — horizontal scroll
-   Left-aligned with header. Fade on right edge.
-═══════════════════════════════════════ */
-.services-section {
-  padding: 96px 0;
-  position: relative; /* for the fade pseudo-element */
-  overflow: hidden;
-}
-
-/* Right-edge fade overlay — same colour as page bg */
-.services-section::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 220px;
-  background: linear-gradient(to right, transparent, var(--lin) 88%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.services-head {
-  max-width: 1280px;
-  margin: 0 auto 44px;
-  padding: 0 48px;
-  display: flex; justify-content: space-between; align-items: flex-end;
-}
-
-.services-track-wrap {
-  overflow-x: auto; overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
-  cursor: grab; scrollbar-width: none;
-  padding: 0 0 24px;
-}
-.services-track-wrap::-webkit-scrollbar { display: none; }
-.services-track-wrap:active { cursor: grabbing; }
-
-.services-track {
-  display: flex;
-  gap: 16px;
-  width: max-content;
-  /* padding-left set dynamically by JS to match wrap left edge */
-  padding-right: 220px;
-}
-
-.svc-card {
-  flex-shrink: 0;
-  width: 500px;
-  height: 500px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-  cursor: pointer;
-}
-/* Image placeholder (replace with <img> in production) */
-.svc-card-bg {
-  position: absolute; inset: 0;
-  transition: transform .7s var(--ease);
-}
-.svc-card img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover; object-position: center;
-  transition: transform 1.2s var(--ease);
-}
-.svc-card:hover .svc-card-bg,
-.svc-card:hover img { transform: scale(1.1); }
-.svc-bg-boende { background: linear-gradient(160deg, #6A7E65 0%, #3A4E36 100%); }
-.svc-bg-rest   { background: linear-gradient(160deg, #5A7254 0%, #2E4228 100%); }
-.svc-bg-konf   { background: linear-gradient(160deg, #7A8E74 0%, #485C40 100%); }
-.svc-bg-natur  { background: linear-gradient(160deg, #4E6A48 0%, #263822 100%); }
-
-.svc-card-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8,14,6,.85) 0%, rgba(8,14,6,.3) 55%, transparent 100%);
-}
-.svc-card-ph {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: var(--fd); font-size: 14px; font-style: italic; color: rgba(255,255,255,.25);
-  text-align: center; padding: 20px;
-}
-.svc-card-body {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 28px 28px 32px;
-}
-.svc-tag {
-  display: inline-block; font-family: var(--fb); font-size: 9px; font-weight: 500;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--amber); border: 1px solid rgba(196,140,42,.4);
-  border-radius: 999px; padding: 2px 8px; margin-bottom: 10px;
-}
-.svc-h {
-  font-family: var(--fd); font-weight: 400; font-size: 26px;
-  color: #fff; line-height: 1.15; margin-bottom: 10px;
-}
-.svc-p {
-  font-family: var(--fb); font-size: 13px; color: rgba(255,255,255,.6);
-  line-height: 1.65; margin-bottom: 20px;
-}
 /* ── Scroll reveal ── */
 .reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity .85s cubic-bezier(.16,1,.3,1),
-              transform .85s cubic-bezier(.16,1,.3,1);
+  opacity: 0; transform: translateY(32px);
+  transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
 }
 .reveal.from-left  { transform: translateX(-28px); }
 .reveal.from-right { transform: translateX(28px); }
 .reveal.visible    { opacity: 1; transform: translate(0); }
-
 .reveal-group > * {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .75s cubic-bezier(.16,1,.3,1),
-              transform .75s cubic-bezier(.16,1,.3,1);
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1);
 }
 .reveal-group.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.04s; }
 .reveal-group.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.13s; }
@@ -544,24 +349,30 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 .reveal-group.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:.40s; }
 .reveal-group.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:.49s; }
 
-/* Scroll hint dots */
-.services-dots {
-  display: flex; gap: 6px; padding: 8px 48px 0;
-  max-width: 1280px; margin: 0 auto;
-}
-.s-dot {
-  width: 20px; height: 2px; background: var(--border); border-radius: 4px;
-  transition: background .25s, width .25s;
-}
-.s-dot.active { background: var(--amber); width: 32px; }
-
 /* ─── Amber divider ─── */
-.amber-rule { display: flex; align-items: center; gap: 16px; margin: 0 0 48px; }
+.amber-rule { display: flex; align-items: center; gap: 16px; margin: 0 0 16px; }
 .amber-rule-line { flex: 0 0 40px; height: 1px; background: var(--amber); }
 .amber-rule-text { font-family: var(--fb); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
 
-/* ─── About ─── */
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+/* ─── Feature Cards ─── */
+.features-intro { text-align: center; max-width: 520px; margin: 0 auto 60px; }
+.features-grid  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.feat-card      { background: var(--s0); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: box-shadow .3s var(--ease), transform .3s var(--ease); }
+.feat-card:hover { box-shadow: 0 12px 40px rgba(24,36,21,.1); transform: translateY(-3px); }
+.feat-img-link  { display: block; overflow: hidden; }
+.feat-img {
+  display: block; width: 100%; height: 260px;
+  object-fit: cover; object-position: center;
+  transition: transform 1.2s var(--ease);
+}
+.feat-img-link:hover .feat-img { transform: scale(1.05); }
+.feat-body { padding: 30px 32px 36px; }
+.feat-body .amber-rule { margin-bottom: 12px; }
+.feat-body h3 { margin-bottom: 12px; }
+.feat-body .body-text { margin-bottom: 24px; }
+
+/* ─── Om oss ─── */
+.about-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .about-year {
   font-family: var(--fd); font-weight: 300;
   font-size: clamp(90px, 14vw, 170px); line-height: 1;
@@ -570,60 +381,62 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
   pointer-events: none; user-select: none;
 }
 .about-heading { position: relative; z-index: 1; margin-bottom: 24px; }
-.about-body { margin-bottom: 28px; }
-.pullquote { border-left: 2px solid var(--amber); padding-left: 22px; margin: 32px 0; }
-.pullquote-text { font-family: var(--fd); font-size: 18px; font-style: italic; color: var(--ink-2); line-height: 1.65; margin-bottom: 10px; }
-.pullquote-attr { font-family: var(--fb); font-size: 11px; color: var(--ink-3); letter-spacing: .06em; }
+.about-body    { margin-bottom: 20px; }
 .about-img {
   height: 580px; border-radius: 20px;
   display: block; width: 100%; object-fit: cover; object-position: center;
 }
+.about-links   { margin-top: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 
-/* ─── Boende ─── */
-.boende-intro { text-align: center; max-width: 520px; margin: 0 auto 60px; }
-.boende-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.boende-card  { background: var(--s0); border-radius: 20px; overflow: hidden; }
-.boende-img   { height: 300px; display: block; width: 100%; object-fit: cover; object-position: center; }
-.boende-body  { padding: 30px 32px 34px; }
-.boende-tag   { display: inline-block; font-family: var(--fb); font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--moss-mid); background: var(--moss-light); border-radius: 999px; padding: 2px 7px; margin-bottom: 12px; }
-.boende-h     { margin-bottom: 8px; }
-.boende-p     { font-size: 14px; color: var(--ink-2); line-height: 1.75; margin-bottom: 18px; }
-.boende-attrs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
-.attr-tag     { font-family: var(--fb); font-size: 11px; color: var(--ink-2); background: var(--lin-warm); border: 1px solid var(--border); border-radius: 999px; padding: 3px 9px; }
-.tag-amber    { font-family: var(--fb); font-size: 11px; color: var(--amber); background: var(--amber-light); border: 1px solid #DCC888; border-radius: 999px; padding: 3px 9px; }
-.boende-price-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 20px; border-top: 1px solid var(--border); }
-.boende-booking   { text-align: center; margin-top: 32px; }
-.booking-note     { font-family: var(--fb); font-size: 12px; color: var(--ink-3); margin-top: 10px; }
+/* Läckö Kött badge */
+.lacko-link {
+  display: inline-flex; flex-direction: column;
+  border: 1px solid var(--border); border-radius: 14px;
+  padding: 13px 20px; transition: border-color .2s, background .2s; background: var(--s0);
+}
+.lacko-link:hover { border-color: var(--amber); background: var(--amber-light); }
+.lacko-label { font-family: var(--fb); font-size: 9px; text-transform: uppercase; letter-spacing: .14em; color: var(--ink-3); margin-bottom: 5px; }
+.lacko-name  { font-family: var(--fd); font-size: 20px; color: var(--ink); }
 
-/* ─── Restaurant ─── */
-.rest-grid { display: grid; grid-template-columns: 5fr 4fr; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-.rest-img  { display: block; width: 100%; height: 100%; min-height: 540px; object-fit: cover; object-position: center; }
-.rest-body { background: var(--s0); padding: 60px 52px; display: flex; flex-direction: column; justify-content: center; }
-.rest-detail { margin: 22px 0; display: flex; flex-direction: column; gap: 14px; }
-.rest-detail-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
-.rest-detail-icon { width: 14px; height: 14px; stroke: var(--ink-3); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-.rest-notice { background: var(--lin); border: 1px solid var(--border); border-radius: 999px; padding: 12px 16px; font-family: var(--fb); font-size: 12px; color: var(--ink-2); margin: 20px 0; line-height: 1.6; }
-.rest-notice strong { color: var(--ink); font-weight: 500; }
+/* ─── Möten & Event ─── */
+.events-section { background: var(--moss); padding: 96px 0; }
+.events-header  { max-width: 600px; margin-bottom: 56px; }
+.events-eyebrow {
+  font-family: var(--fb); font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: rgba(255,255,255,.35);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.events-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--amber); flex-shrink: 0; }
+.events-h2 {
+  font-family: var(--fd); font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 44px); color: #fff; line-height: 1.12; margin-bottom: 14px;
+}
+.events-sub  { font-family: var(--fb); font-size: 15px; color: rgba(255,255,255,.45); line-height: 1.75; }
+.events-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08); border-radius: 16px;
+  overflow: hidden; margin-bottom: 48px;
+}
+.event-item { padding: 34px 30px; background: var(--moss); transition: background .2s; }
+.event-item:hover { background: #1e3018; }
+.event-icon  { font-size: 20px; margin-bottom: 14px; display: block; line-height: 1; }
+.event-title { font-family: var(--fd); font-size: 22px; color: #fff; margin-bottom: 8px; }
+.event-desc  { font-family: var(--fb); font-size: 13px; color: rgba(255,255,255,.42); line-height: 1.7; }
+.events-cta  { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
-/* ─── Theatre ─── */
-.theatre-strip { background: var(--amber-light); border-top: 1px solid #D8C898; border-bottom: 1px solid #D8C898; }
-.theatre-inner { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 40px; padding: 44px 0; }
-.theatre-icon  { width: 96px; height: 96px; border-radius: 999px; background: #C8B070; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.theatre-icon svg { width: 28px; height: 28px; stroke: rgba(255,255,255,.7); fill: none; stroke-width: 1.5; }
-.theatre-meta  { font-family: var(--fb); font-size: 11px; color: var(--ink-3); margin-bottom: 4px; }
-.theatre-h     { font-family: var(--fd); font-size: 28px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
-.theatre-sub   { font-family: var(--fb); font-size: 13px; color: var(--ink-2); }
-.theatre-prices { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-.price-pill    { font-family: var(--fb); font-size: 11px; background: var(--s0); border: 1px solid var(--border); border-radius: 999px; padding: 5px 10px; color: var(--ink-2); }
-.price-pill strong { color: var(--ink); font-weight: 500; }
-.theatre-dates { text-align: right; flex-shrink: 0; }
-.theatre-dates-label { font-family: var(--fb); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); margin-bottom: 10px; }
-.theatre-dates-list  { font-family: var(--fb); font-size: 11px; color: var(--ink-3); line-height: 2.2; }
+/* ─── Instagram ─── */
+.ig-section  { padding: 80px 0; }
+.ig-header   { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+.ig-grid     { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.ig-item     { aspect-ratio: 1; background: var(--lin-warm); border-radius: 10px; }
+.ig-item:nth-child(even) { background: var(--lin-deep); }
+.ig-item:nth-child(3)    { background: var(--lin-deep); }
 
 /* ─── Footer ─── */
 footer { background: var(--moss); }
 .footer-top { padding: 72px 0 56px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
-.footer-logo { font-family: var(--fd); font-size: 26px; font-weight: 300; color: #fff; margin-bottom: 18px; }
+.footer-logo    { font-family: var(--fd); font-size: 26px; font-weight: 300; color: #fff; margin-bottom: 18px; }
 .footer-address { font-family: var(--fb); font-size: 13px; color: rgba(255,255,255,.38); line-height: 2.1; }
 .footer-address a { color: rgba(255,255,255,.38); transition: color .2s; }
 .footer-address a:hover { color: rgba(255,255,255,.75); }
@@ -631,8 +444,8 @@ footer { background: var(--moss); }
 .footer-link { display: block; font-family: var(--fb); font-size: 13px; color: rgba(255,255,255,.46); margin-bottom: 10px; transition: color .2s; }
 .footer-link:hover { color: rgba(255,255,255,.9); }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
-.footer-copy { font-family: var(--fb); font-size: 11px; color: rgba(255,255,255,.22); }
-.footer-legal { display: flex; gap: 20px; }
+.footer-copy   { font-family: var(--fb); font-size: 11px; color: rgba(255,255,255,.22); }
+.footer-legal  { display: flex; gap: 20px; }
 .footer-legal a { font-family: var(--fb); font-size: 11px; color: rgba(255,255,255,.22); transition: color .2s; }
 .footer-legal a:hover { color: rgba(255,255,255,.6); }
 
@@ -640,74 +453,62 @@ footer { background: var(--moss); }
    RESPONSIVE
 ═══════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .wrap { padding: 0 32px; }
-  .services-head { padding: 0 32px; }
-  .services-dots { padding: 8px 32px 0; }
-  .services-track { padding-right: 160px; }
-  .svc-card { width: 400px; height: 400px; }
-  .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .about-img  { height: 360px; }
-  .about-year { font-size: clamp(70px, 12vw, 120px); }
-  .rest-grid  { grid-template-columns: 1fr; }
-  .rest-img   { min-height: 280px; }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .wrap         { padding: 0 32px; }
+  .about-grid   { grid-template-columns: 1fr; gap: 48px; }
+  .about-img    { height: 360px; }
+  .about-year   { font-size: clamp(70px, 12vw, 120px); }
+  .footer-top   { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .features-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .feat-card:last-child { grid-column: 1 / -1; }
+  .ig-grid      { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
   :root { --nav-h: 72px; }
   .wrap { padding: 0 20px; }
   .section, .section-alt { padding: 64px 0; }
-  .services-section { padding: 64px 0; }
-  .services-head { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
-  .services-dots { padding: 8px 20px 0; }
+  .nav-inner { padding: 0 16px; }
+  .nav-hamburger-circle { width: 44px; height: 44px; gap: 5px; }
+  .nav-hamburger-circle span { width: 17px; }
 
-  /* Cards on mobile */
-  .services-track { padding-right: 120px; }
-  .services-section::after { width: 80px; }
-  .svc-card { width: 80vw; height: 80vw; max-height: 420px; }
-
-  /* Nav: hide desktop links, show hamburger */
-
-  /* Hero */
-  .hero-h1 { font-size: clamp(42px, 10vw, 64px); }
-  .hero-btns { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .hero-h1    { font-size: clamp(42px, 10vw, 64px); }
+  .hero-btns  { flex-direction: column; align-items: flex-start; gap: 10px; }
   .hero-content { padding-bottom: 60px; }
 
-  /* Info strip — vertical + centered on mobile */
   .info-inner {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: auto;
-    padding: 20px 0;
-    gap: 12px;
-    justify-content: flex-start;
+    flex-direction: column; align-items: center; text-align: center;
+    height: auto; padding: 20px 0; gap: 12px; justify-content: flex-start;
   }
 
-  /* Boende */
-  .boende-grid { grid-template-columns: 1fr; }
-  .boende-img  { height: 220px; }
-  .boende-price-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feat-card:last-child { grid-column: auto; }
+  .feat-img { height: 240px; }
 
-  /* Theatre */
-  .theatre-inner { grid-template-columns: 1fr; gap: 20px; }
-  .theatre-icon  { display: none; }
-  .theatre-dates { text-align: left; }
+  .events-section { padding: 64px 0; }
+  .events-grid { grid-template-columns: 1fr 1fr; }
 
-  /* Footer */
-  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  .ig-section { padding: 60px 0; }
+  .ig-grid    { grid-template-columns: repeat(3, 1fr); }
+  .ig-header  { flex-direction: column; align-items: flex-start; }
+
+  .footer-top    { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
 }
 
+@media (max-width: 600px) {
+  .nav-panel { width: 100%; }
+  .nav-panel-links-inner { padding: 0 36px; }
+  .nav-panel-foot { padding: 28px 36px 44px; }
+  .nav-panel-sep { left: 36px; right: 36px; }
+  .nav-panel-link { font-size: clamp(28px, 7vw, 40px); }
+}
+
 @media (max-width: 480px) {
-  .wrap { padding: 0 16px; }
-  .services-head { padding: 0 16px; }
-  .services-dots { padding: 6px 16px 0; }
-  .services-track { padding-right: 80px; }
-  .svc-card { width: 82vw; height: 82vw; max-height: 360px; }
+  .wrap       { padding: 0 16px; }
   .hero-content { padding-bottom: 48px; }
-  .boende-body { padding: 20px; }
-  .rest-body { padding: 32px 24px; }
+  .feat-body  { padding: 22px 20px 28px; }
+  .events-grid { grid-template-columns: 1fr; }
+  .ig-grid    { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -718,11 +519,10 @@ footer { background: var(--moss); }
 <nav id="nav">
   <div class="nav-inner">
 
-<a href="index.html" class="nav-logo">
-  <span class="nav-logo-name">Närebo</span>
-  <span class="nav-logo-sub">Gårdshotell &amp; restaurang</span>
-</a>
-
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-name">Närebo</span>
+      <span class="nav-logo-sub">Gårdshotell &amp; restaurang</span>
+    </a>
 
     <div class="nav-left">
       <button class="nav-lang-item nav-lang-active" data-lang="sv">SV</button>
@@ -741,8 +541,6 @@ footer { background: var(--moss); }
 <!-- Side panel menu -->
 <aside class="nav-panel" id="navPanel">
   <button class="nav-panel-close" id="panelClose">Stäng ✕</button>
-
-  <!-- Links — centered in space above footer -->
   <div style="position:absolute; top:0; left:0; right:0; bottom:146px; display:flex; align-items:center;">
     <div class="nav-panel-links-inner">
       <a href="historia.html"   class="nav-panel-link">Om gården</a>
@@ -753,8 +551,6 @@ footer { background: var(--moss); }
       <a href="kontakt.html"    class="nav-panel-link">Kontakt</a>
     </div>
   </div>
-
-  <!-- Footer — pinned to very bottom -->
   <div class="nav-panel-foot" style="position:absolute; left:0; right:0; bottom:0; display:flex; flex-direction:column; gap:14px;">
     <div class="nav-panel-sep"></div>
     <a href="https://app.moder.fi/narebo-gardshotell" class="nav-panel-cta-link">Boka rum</a>
@@ -764,15 +560,14 @@ footer { background: var(--moss); }
 <div class="nav-scrim" id="navScrim"></div>
 
 
-
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <img id="heroBg" class="hero-bg" src="hero.png" alt="Närebo gårdshotell">
   <div class="hero-overlay"></div>
   <div class="hero-content wrap">
-    <div class="hero-eyebrow">Gårdshotell & Restaurang · Lidköping</div>
+    <div class="hero-eyebrow">Gårdshotell &amp; Restaurang · Lidköping</div>
     <h1 class="hero-h1">Välkommen<br>till Närebo</h1>
-    <p class="hero-sub">Lugn & lantlig gårdsmiljö sedan 1541</p>
+    <p class="hero-sub">Lugn &amp; lantlig gårdsmiljö sedan 1541</p>
     <div class="hero-btns">
       <a href="https://app.moder.fi/narebo-gardshotell" class="btn-rise-dark">Boka rum</a>
       <a href="historia.html" class="btn-ghost-hero">Utforska gården</a>
@@ -789,14 +584,17 @@ footer { background: var(--moss); }
         <svg class="info-icon" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
         Frukost mån–fre 7–9 · lör–sön 8–10
       </div>
+      <div class="info-sep"></div>
       <div class="info-item">
         <svg class="info-icon" viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
         Restaurang fre–sön 17–20 · bokning krävs
       </div>
+      <div class="info-sep"></div>
       <div class="info-item">
         <svg class="info-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         Incheckning 15:00–18:00
       </div>
+      <div class="info-sep"></div>
       <div class="info-item">
         <svg class="info-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91A16 16 0 0 0 14 14.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         Kolla med Karolina
@@ -806,192 +604,147 @@ footer { background: var(--moss); }
 </div>
 
 
-<!-- ═══ SERVICES — horizontal scroll ═══ -->
-<div class="services-section">
-  <div class="services-head">
-    <div class="reveal">
-      <div class="eyebrow" style="margin-bottom:10px;">Vad vi erbjuder</div>
-      <h2>Hotell, restaurang<br>& natur i Västergötland</h2>
+<!-- ═══ FEATURES ═══ -->
+<section class="section">
+  <div class="wrap">
+    <div class="features-intro reveal">
+      <div class="eyebrow eyebrow-center">Vad vi erbjuder</div>
+      <h2>Hotell, mat &amp; möten i Västergötland</h2>
     </div>
-    <a href="boende.html" class="btn-bracket" style="display:none;">Se alla</a>
-  </div>
+    <div class="features-grid reveal-group">
 
-  <div class="services-track-wrap" id="svcTrack">
-    <div class="services-track">
-
-      <div class="svc-card">
-        <img src="https://www.narebo.se/wp-content/uploads/2020/03/IMG-0490.jpg" alt="Hotellrum på Närebo">
-        <div class="svc-card-overlay"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag">Boende</span>
-          <div class="svc-h">Hotell &amp; lägenheter</div>
-          <p class="svc-p">6 hotellrum och 5 gårdslägenheter med eget pentry. Frukost ingår alltid.</p>
-          <a href="boende.html" class="btn-bracket-light">Visa boende</a>
+      <article class="feat-card">
+        <a href="boende.html" class="feat-img-link">
+          <img src="https://www.narebo.se/wp-content/uploads/2020/11/DSC_0301.jpg" alt="Hotellrum på Närebo" class="feat-img">
+        </a>
+        <div class="feat-body">
+          <div class="amber-rule"><div class="amber-rule-line"></div><span class="amber-rule-text">Boende</span></div>
+          <h3>Hotellrum &amp; gårdslägenheter</h3>
+          <p class="body-text">6 hotellrum och 5 gårdslägenheter med eget pentry. Frukost ingår alltid. Eget badrum, TV och gratis WiFi.</p>
+          <a href="boende.html" class="btn-bracket">Se boende</a>
         </div>
-      </div>
+      </article>
 
-      <div class="svc-card">
-        <img src="https://www.narebo.se/wp-content/uploads/2023/05/Ratt_2.jpg" alt="Restaurang på Närebo">
-        <div class="svc-card-overlay"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag">Restaurang</span>
-          <div class="svc-h">Från jord till bord</div>
-          <p class="svc-p">Kvällsmeny fredag–söndag i ett vinterbonat växthus. Råvarorna odlas på gården.</p>
-          <a href="restaurang.html" class="btn-bracket-light">Om restaurangen</a>
+      <article class="feat-card">
+        <a href="restaurang.html" class="feat-img-link">
+          <img src="https://www.narebo.se/wp-content/uploads/2023/05/Ratt_2.jpg" alt="Restaurang på Närebo" class="feat-img">
+        </a>
+        <div class="feat-body">
+          <div class="amber-rule"><div class="amber-rule-line"></div><span class="amber-rule-text">Restaurang &amp; Café</span></div>
+          <h3>Från jord till bord</h3>
+          <p class="body-text">Kvällsmeny fredag–söndag i ett vinterbonat växthus. Förbokade sällskap om 2–60 gäster. Råvarorna odlas på gården.</p>
+          <a href="restaurang.html" class="btn-bracket">Om restaurangen</a>
         </div>
-      </div>
+      </article>
 
-      <div class="svc-card">
-        <img src="https://www.narebo.se/wp-content/uploads/2021/01/IMG_0924-scaled.jpg" alt="Konferens på Närebo">
-        <div class="svc-card-overlay"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag">Konferens</span>
-          <div class="svc-h">Möten med god eftersmak</div>
-          <p class="svc-p">Fullt utrustat konferensrum för upp till 50 gäster. Lantlig miljö, övernattning på plats.</p>
-          <a href="konferens.html" class="btn-bracket-light">Begär offert</a>
+      <article class="feat-card">
+        <a href="konferens.html" class="feat-img-link">
+          <img src="https://www.narebo.se/wp-content/uploads/2021/01/IMG_0924-scaled.jpg" alt="Konferens på Närebo" class="feat-img">
+        </a>
+        <div class="feat-body">
+          <div class="amber-rule"><div class="amber-rule-line"></div><span class="amber-rule-text">Möten &amp; Event</span></div>
+          <h3>Möten med god eftersmak</h3>
+          <p class="body-text">Fullt utrustat konferensrum för upp till 50 gäster. Lantlig miljö, övernattning på plats. Boka hela gården för event.</p>
+          <a href="konferens.html" class="btn-bracket">Begär offert</a>
         </div>
-      </div>
-
-      <div class="svc-card" style="margin-right:0;">
-        <img src="https://www.narebo.se/wp-content/uploads/2021/01/P1050989-scaled.jpg" alt="Natur och aktiviteter kring Närebo">
-        <div class="svc-card-overlay"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag">Att göra</span>
-          <div class="svc-h">Natur, teater &amp; Vänernkust</div>
-          <p class="svc-p">Teater i ladan, vandring vid Hindens Rev, bad på Svalnäs och Läckö Slott 20 km bort.</p>
-          <a href="att-gora.html" class="btn-bracket-light">Utforska</a>
-        </div>
-      </div>
+      </article>
 
     </div>
   </div>
-
-  <!-- Scroll indicator dots -->
-  <div class="services-dots" id="svcDots">
-    <div class="s-dot active" data-i="0"></div>
-    <div class="s-dot"        data-i="1"></div>
-    <div class="s-dot"        data-i="2"></div>
-    <div class="s-dot"        data-i="3"></div>
-  </div>
-</div>
+</section>
 
 
-<!-- ═══ ABOUT ═══ -->
+<!-- ═══ OM OSS ═══ -->
 <section class="section-alt">
   <div class="wrap">
     <div class="about-grid">
-      <div class="reveal">
+      <div class="reveal from-left">
         <div class="amber-rule">
           <div class="amber-rule-line"></div>
-          <span class="amber-rule-text">Om gården</span>
+          <span class="amber-rule-text">Om oss</span>
         </div>
         <div class="about-year">1541</div>
         <div class="about-heading">
           <h2>En levande gård sedan femtonhundratalet</h2>
         </div>
         <p class="body-text about-body">Gården Närebo omnämns första gången 1541 i jordeboken. I generationer har den burit många namn och bytt händer — men aldrig tappat sin karaktär. Sedan 1946 ägs den av familjen Carlander.</p>
-        <p class="body-text" style="margin-bottom:0;">Idag är gårdens 145 hektar inriktade på spannmålsproduktion. I växthusen odlar vi gurkor, tomater, hallon och vindruvor — raka in i restaurangköket.</p>
-        <a href="historia.html" class="btn-bracket">Om Närebos historia</a>
+        <p class="body-text">Idag är gårdens 145 hektar inriktade på spannmålsproduktion. I växthusen odlar vi gurkor, tomater, hallon och vindruvor — raka in i restaurangköket.</p>
+        <div class="about-links">
+          <a href="historia.html" class="btn-bracket">Om Närebos historia</a>
+        </div>
       </div>
-      <img src="https://www.narebo.se/wp-content/uploads/2019/01/slide-1.jpg" alt="Närebos gårdsplan" class="about-img reveal from-right" style="object-fit:cover;object-position:center;">
+      <img src="https://www.narebo.se/wp-content/uploads/2019/01/slide-1.jpg" alt="Närebos gårdsplan" class="about-img reveal from-right">
     </div>
   </div>
 </section>
 
 
-<!-- ═══ BOENDE ═══ -->
-<section class="section">
+<!-- ═══ MÖTEN & EVENT ═══ -->
+<section class="events-section">
   <div class="wrap">
-    <div class="boende-intro reveal">
-      <div class="eyebrow eyebrow-center" style="margin-bottom:14px;">Boende</div>
-      <h2>Hotellrum & gårdslägenheter</h2>
-      <p class="body-text" style="margin-top:14px;font-size:14px;">Frukost ingår alltid. Eget badrum, TV och gratis WiFi i alla rum och lägenheter.</p>
+    <div class="events-header reveal">
+      <div class="events-eyebrow">Möten &amp; Event</div>
+      <h2 class="events-h2">Samlingsplatsen för det som betyder något</h2>
+      <p class="events-sub">Oavsett om det är julbord, bröllop eller bolagsmöte — vi skapar rätt förutsättningar för att det ska bli bra.</p>
     </div>
-    <div class="boende-grid reveal-group">
-      <div class="boende-card">
-        <img src="https://www.narebo.se/wp-content/uploads/2020/11/DSC_0301.jpg" alt="Hotellrum på Närebo" class="boende-img" style="object-fit:cover;object-position:center;">
-        <div class="boende-body">
-          <span class="boende-tag">Hotellrum</span>
-          <h3 class="boende-h">6 rum med gårdskaraktär</h3>
-          <p class="boende-p">Bekväma separata sängar, eget badrum med dusch, TV och trådlöst internet. Gemensam sittgrupp och stor uteplats intill rummen.</p>
-          <div class="boende-attrs">
-            <span class="attr-tag">WiFi</span>
-            <span class="attr-tag">Dusch & WC</span>
-            <span class="attr-tag">TV</span>
-            <span class="attr-tag">Frukost ingår</span>
-            <span class="attr-tag">Gratis parkering</span>
-          </div>
-          <div class="boende-price-row">
-            <div>
-              <div class="price">från 1 249 kr <span class="price-sub">/ natt</span></div>
-              <div style="font-size:11px;color:var(--ink-3);margin-top:3px;">Dubbelrum fr. 1 395 kr · Extrasäng 360 kr</div>
-            </div>
-            <a href="boende.html#hotellrum" class="btn-rise btn-rise-sm">Visa rum</a>
-          </div>
-        </div>
+    <div class="events-grid reveal-group">
+      <div class="event-item">
+        <span class="event-icon">🕯️</span>
+        <div class="event-title">Julbord</div>
+        <p class="event-desc">Tradition i lantlig miljö. Boka hela restaurangen för er julfest eller företagets julbord.</p>
       </div>
-      <div class="boende-card">
-        <img src="https://www.narebo.se/wp-content/uploads/2020/03/IMG-0492.jpg" alt="Gårdslägenhet på Närebo" class="boende-img" style="object-fit:cover;object-position:center;">
-        <div class="boende-body">
-          <span class="boende-tag">Gårdslägenheter</span>
-          <h3 class="boende-h">5 lägenheter med eget pentry</h3>
-          <p class="boende-p">32–37 kvm med allrum, separat sovdel och fullt utrustat pentry. Sänglinne och handdukar ingår. Lägenhet 1 och 5 har privat altan i söderläge.</p>
-          <div class="boende-attrs">
-            <span class="attr-tag">Pentry</span>
-            <span class="attr-tag">Dusch & WC</span>
-            <span class="attr-tag">WiFi</span>
-            <span class="attr-tag">Frukost ingår</span>
-            <span class="tag-amber">Husdjur OK (LGH 3)</span>
-          </div>
-          <div class="boende-price-row">
-            <div>
-              <div class="price">från 1 595 kr <span class="price-sub">/ natt</span></div>
-              <div style="font-size:11px;color:var(--ink-3);margin-top:3px;">Pris avser 2 pers · Extrasäng 360 kr</div>
-            </div>
-            <a href="boende.html#lagenheter" class="btn-rise btn-rise-sm">Visa lägenheter</a>
-          </div>
-        </div>
+      <div class="event-item">
+        <span class="event-icon">🌿</span>
+        <div class="event-title">Bröllop &amp; fest</div>
+        <p class="event-desc">Hyr hela gården — hotellrum, restaurang och konferenslokal. En plats för en dag ni aldrig glömmer.</p>
+      </div>
+      <div class="event-item">
+        <span class="event-icon">💼</span>
+        <div class="event-title">Konferens</div>
+        <p class="event-desc">Modern teknik i lantlig miljö. Bio-placering upp till 50 gäster, med övernattning och mat på plats.</p>
+      </div>
+      <div class="event-item">
+        <span class="event-icon">📖</span>
+        <div class="event-title">Kursgård</div>
+        <p class="event-desc">Flexibla lokaler för utbildning och kurser. Frukost, lunch och middag kan arrangeras. Tyst och fokuserat läge.</p>
+      </div>
+      <div class="event-item">
+        <span class="event-icon">🤝</span>
+        <div class="event-title">Teambuilding</div>
+        <p class="event-desc">Vandring vid Hindens Rev, bad på Svalnäs och golf vid Läckö. Fantastiska aktiviteter runt hörnet.</p>
+      </div>
+      <div class="event-item">
+        <span class="event-icon">🎤</span>
+        <div class="event-title">Föreläsning &amp; kick-off</div>
+        <p class="event-desc">Projektor, ljud och storbildsskärm ingår. Vi ordnar mat, boende och ett program som håller ihop hela dagen.</p>
       </div>
     </div>
-    <div class="boende-booking">
-      <a href="https://app.moder.fi/narebo-gardshotell" class="btn-bracket">Boka rum</a>
-      <div class="booking-note">Direktbokning: info@narebo.se · Incheckning 15:00–18:00</div>
+    <div class="events-cta reveal">
+      <a href="konferens.html" class="btn-rise-dark">Begär offert</a>
+      <a href="kontakt.html" class="btn-bracket-light">Kontakta oss</a>
     </div>
   </div>
 </section>
 
 
-<!-- ═══ RESTAURANT ═══ -->
-<section class="section-alt">
+<!-- ═══ INSTAGRAM ═══ -->
+<!-- TODO: Ersätt .ig-grid nedan med ditt Instagram-embed-skript (t.ex. Elfsight) när det är klart -->
+<section class="ig-section">
   <div class="wrap">
-    <div class="rest-grid">
-      <img src="https://www.narebo.se/wp-content/uploads/2020/05/IMG_1714.jpg" alt="Restaurangen på Närebo" class="rest-img reveal from-left" style="object-fit:cover;object-position:center;">
-      <div class="rest-body reveal from-right">
-        <div class="amber-rule" style="margin-bottom:28px;">
-          <div class="amber-rule-line"></div>
-          <span class="amber-rule-text">Restaurang</span>
-        </div>
-        <h2 style="margin-bottom:18px;">Ljust, lantligt & vällagat</h2>
-        <p class="body-text">I ett vinterbonat växthus sammanbyggt med Närebo Entrén tar vi emot förbokade sällskap från 2 till 60 gäster. Råvarorna hämtas direkt från gårdens egna odlingar.</p>
-        <div class="rest-notice">
-          <strong>Tillfälligt stängt.</strong> Kontakta oss för information om öppning och bokning.
-        </div>
-        <div class="rest-detail">
-          <div class="rest-detail-row">
-            <svg class="rest-detail-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Fredag–söndag 17:00–20:00 (vid öppning)
-          </div>
-          <div class="rest-detail-row">
-            <svg class="rest-detail-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            2–60 gäster · bussar välkomna
-          </div>
-          <div class="rest-detail-row">
-            <svg class="rest-detail-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            info@narebo.se
-          </div>
-        </div>
-        <a href="restaurang.html" class="btn-rise">Läs om restaurangen</a>
+    <div class="ig-header reveal">
+      <div>
+        <div class="eyebrow" style="margin-bottom:10px;">Följ oss</div>
+        <h2>Närebo på Instagram</h2>
       </div>
+      <a href="https://instagram.com/narebo_gardshotell" target="_blank" rel="noopener" class="btn-bracket">Öppna Instagram</a>
+    </div>
+    <div class="ig-grid">
+      <div class="ig-item"></div>
+      <div class="ig-item"></div>
+      <div class="ig-item"></div>
+      <div class="ig-item"></div>
+      <div class="ig-item"></div>
+      <div class="ig-item"></div>
     </div>
   </div>
 </section>
@@ -1022,18 +775,16 @@ footer { background: var(--moss); }
         <a href="restaurang.html" class="footer-link">Restaurang</a>
         <a href="konferens.html"  class="footer-link">Konferens</a>
         <a href="att-gora.html"   class="footer-link">Att göra</a>
-        <a href="att-gora.html#teater" class="footer-link">Teater på Närebo</a>
       </div>
       <div>
         <div class="footer-col-title">Info</div>
         <a href="historia.html"          class="footer-link">Om Närebo</a>
-        <a href="kontakt.html"           class="footer-link">Kontakt & karta</a>
+        <a href="kontakt.html"           class="footer-link">Kontakt &amp; karta</a>
         <a href="integritetspolicy.html" class="footer-link">Integritetspolicy</a>
-        <a href="en.html"                class="footer-link">In English</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">© 2025 Närebo Gårdshotell & Restaurang</span>
+      <span class="footer-copy">© 2025 Närebo Gårdshotell &amp; Restaurang</span>
       <div class="footer-legal">
         <a href="integritetspolicy.html">Integritetspolicy</a>
         <a href="kontakt.html">Kontakt</a>
@@ -1060,15 +811,12 @@ const heroBg   = document.getElementById('heroBg');
 const heroSect = document.querySelector('.hero');
 function updateParallax() {
   if (!heroBg || !heroSect) return;
-  const scrolled  = window.scrollY;
-  const sectH     = heroSect.offsetHeight;
-  // progress 0→1 as hero scrolls out of view
-  const progress  = Math.max(0, Math.min(scrolled / sectH, 1));
-  // image is 140% tall → move max 20% for subtle effect
+  const progress = Math.max(0, Math.min(window.scrollY / heroSect.offsetHeight, 1));
   heroBg.style.transform = `translateY(-${progress * 20}%)`;
 }
 updateParallax();
 window.addEventListener('scroll', updateParallax, { passive: true });
+
 /* ── Nav scroll hide/show ── */
 const nav = document.getElementById('nav');
 let lastScrollY = 0;
@@ -1080,11 +828,8 @@ window.addEventListener('scroll', () => {
     if (!document.querySelector('.hero')) nav.classList.add('solid');
   } else {
     nav.classList.add('solid');
-    if (y > lastScrollY && y > 200) {
-      nav.classList.add('hide');
-    } else {
-      nav.classList.remove('hide');
-    }
+    if (y > lastScrollY && y > 200) nav.classList.add('hide');
+    else nav.classList.remove('hide');
   }
   lastScrollY = y;
 }, { passive: true });
@@ -1094,83 +839,14 @@ const hamburger  = document.getElementById('hamburger');
 const panel      = document.getElementById('navPanel');
 const scrim      = document.getElementById('navScrim');
 const panelClose = document.getElementById('panelClose');
-
-function openMenu() {
-  panel.classList.add('open');
-  scrim.classList.add('open');
-  hamburger.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeMenu() {
-  panel.classList.remove('open');
-  scrim.classList.remove('open');
-  hamburger.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
+function openMenu()  { panel.classList.add('open'); scrim.classList.add('open'); hamburger.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeMenu() { panel.classList.remove('open'); scrim.classList.remove('open'); hamburger.classList.remove('active'); document.body.style.overflow = ''; }
 hamburger.addEventListener('click', openMenu);
 panelClose.addEventListener('click', closeMenu);
 scrim.addEventListener('click', closeMenu);
 panel.querySelectorAll('.nav-panel-link').forEach(l => l.addEventListener('click', closeMenu));
-
-/* ── Service cards — align + JS snap ── */
-const track = document.getElementById('svcTrack');
-const dots  = document.querySelectorAll('#svcDots .s-dot');
-
-function getStep() {
-  const card = track.querySelector('.svc-card');
-  return card ? card.offsetWidth + 16 : 516;
-}
-function alignTrack() {
-  const head = document.querySelector('.services-head > div');
-  const inner = document.querySelector('.services-track');
-  if (!head || !inner) return;
-  inner.style.paddingLeft = head.getBoundingClientRect().left + 'px';
-}
-function snapTo(i, smooth = true) {
-  const idx = Math.max(0, Math.min(i, dots.length - 1));
-  track.scrollTo({ left: idx * getStep(), behavior: smooth ? 'smooth' : 'instant' });
-  dots.forEach((d, j) => d.classList.toggle('active', j === idx));
-}
-function nearestIdx() {
-  return Math.round(track.scrollLeft / getStep());
-}
-
-alignTrack();
-window.addEventListener('resize', () => { alignTrack(); snapTo(nearestIdx(), false); });
-
-// Dots
-dots.forEach(dot => dot.addEventListener('click', () => snapTo(parseInt(dot.dataset.i))));
-
-// Update dots on scroll
-let snapTimer, isDragging = false;
-track.addEventListener('scroll', () => {
-  dots.forEach((d, i) => d.classList.toggle('active', i === nearestIdx()));
-  clearTimeout(snapTimer);
-  if (!isDragging) snapTimer = setTimeout(() => snapTo(nearestIdx()), 150);
-}, { passive: true });
-
-// scrollend (modern browsers)
-track.addEventListener('scrollend', () => { if (!isDragging) snapTo(nearestIdx()); });
-
-// Mouse drag
-let startX, startScroll;
-track.addEventListener('mousedown', e => {
-  isDragging = true; track.style.cursor = 'grabbing';
-  startX = e.pageX; startScroll = track.scrollLeft;
-  clearTimeout(snapTimer);
-});
-window.addEventListener('mouseup', () => {
-  if (!isDragging) return;
-  isDragging = false; track.style.cursor = 'grab';
-  snapTo(nearestIdx());
-});
-track.addEventListener('mousemove', e => {
-  if (!isDragging) return; e.preventDefault();
-  track.scrollLeft = startScroll - (e.pageX - startX);
-});
 </script>
 
-  <script src="i18n.js"></script>
+<script src="i18n.js"></script>
 </body>
 </html>

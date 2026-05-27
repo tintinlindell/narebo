@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 :root {
   --moss:        #182415;
@@ -66,16 +66,19 @@ h3 { font-family:var(--fd); font-weight:500; font-size:21px; line-height:1.2; ma
 .btn-rise-sm { padding:10px 22px; font-size:12px; }
 
 .btn-bracket {
-  position:relative; display:inline-flex; align-items:center;
-  font-family:var(--fb); font-size:13px; letter-spacing:.05em;
-  background:none; border:none; color:var(--ink);
-  padding:10px 22px; cursor:pointer; transition:color .25s; white-space:nowrap;
+  display: inline-flex; align-items: center;
+  font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
+  background: none; border: none; color: var(--ink);
+  padding: 10px 0; cursor: pointer; transition: color .25s;
+  white-space: nowrap;
 }
-.btn-bracket::before, .btn-bracket::after { content:''; position:absolute; top:0; bottom:0; width:0; border:1.5px solid var(--amber); opacity:0; transition:width .32s var(--ease), opacity .15s; }
-.btn-bracket::before { left:0; border-right:none; }
-.btn-bracket::after  { right:0; border-left:none; }
-.btn-bracket:hover::before, .btn-bracket:hover::after { width:12px; opacity:1; }
-.btn-bracket:hover { color:var(--moss); }
+.btn-bracket::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.btn-bracket:hover { color: var(--moss); }
+.btn-bracket:hover::after { opacity: 1; transform: translateX(0); }
 
 .btn-rise-on-dark {
   position:relative; overflow:hidden; display:inline-flex; align-items:center;
@@ -490,8 +493,8 @@ footer { background:var(--moss); }
 
 <!-- ═══ HERO ═══ -->
 <section class="page-hero">
-  <img src="https://www.narebo.se/wp-content/uploads/2020/11/DSC_0301.jpg"
-       alt="Hotellrum på Närebo" class="page-hero-bg">
+  <img src="https://www.narebo.se/wp-content/uploads/2026/05/IMG_0239-scaled.jpg"
+       alt="Hotellrum på Närebo" class="page-hero-bg" style="object-position:center 50%;">
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content wrap">
     <div class="page-hero-eyebrow">Boende på Närebo</div>

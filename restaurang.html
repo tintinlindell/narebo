@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 :root {
   --moss:#182415; --moss-mid:#35502C; --moss-light:#D0DCCA; --moss-pale:#E4EDE0;
   --amber:#C48C2A; --amber-mid:#D4A040; --amber-light:#F0E4C4;
@@ -38,12 +38,20 @@ h3 { font-family:var(--fd); font-weight:500; font-size:21px; line-height:1.2; ma
 .btn-rise:hover::before { transform:scaleY(1); }
 .btn-rise:hover { border-color:var(--amber); }
 .btn-rise-sm { padding:10px 22px; font-size:12px; }
-.btn-bracket { position:relative; display:inline-flex; align-items:center; font-family:var(--fb); font-size:13px; letter-spacing:.05em; background:none; border:none; color:var(--ink); padding:10px 22px; cursor:pointer; transition:color .25s; white-space:nowrap; }
-.btn-bracket::before, .btn-bracket::after { content:''; position:absolute; top:0; bottom:0; width:0; border:1.5px solid var(--amber); opacity:0; transition:width .32s var(--ease), opacity .15s; }
-.btn-bracket::before { left:0; border-right:none; }
-.btn-bracket::after { right:0; border-left:none; }
-.btn-bracket:hover::before, .btn-bracket:hover::after { width:12px; opacity:1; }
-.btn-bracket:hover { color:var(--moss); }
+.btn-bracket {
+  display: inline-flex; align-items: center;
+  font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
+  background: none; border: none; color: var(--ink);
+  padding: 10px 0; cursor: pointer; transition: color .25s;
+  white-space: nowrap;
+}
+.btn-bracket::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.btn-bracket:hover { color: var(--moss); }
+.btn-bracket:hover::after { opacity: 1; transform: translateX(0); }
 /* ═══════════════════════════════════════
    NAVIGATION — centered logo, side panel
 ═══════════════════════════════════════ */
@@ -243,7 +251,7 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 
 /* Split section */
 .split { display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:20px; overflow:hidden; border:1px solid var(--border); }
-.split-img { min-height:500px; object-fit:cover; object-position:center; display:block; width:100%; }
+.split-img { height:100%; min-height:500px; object-fit:cover; object-position:center; display:block; width:100%; }
 .split-body { background:var(--s0); padding:60px 52px; display:flex; flex-direction:column; justify-content:center; }
 .split-detail { margin:24px 0; display:flex; flex-direction:column; gap:14px; }
 .split-row { display:flex; align-items:flex-start; gap:10px; font-family:var(--fb); font-size:14px; color:var(--ink-2); }
@@ -266,12 +274,20 @@ nav.solid .nav-hamburger-circle:hover { border-color: rgba(255,255,255,.65); }
 .btn-rise-dark::before { content:''; position:absolute; inset:0; background:var(--amber); transform:scaleY(0); transform-origin:bottom; z-index:-1; transition:transform .55s var(--ease); }
 .btn-rise-dark:hover::before { transform:scaleY(1); }
 .btn-rise-dark:hover { border-color:var(--amber); }
-.btn-bracket-light { position:relative; display:inline-flex; align-items:center; font-family:var(--fb); font-size:13px; letter-spacing:.05em; background:none; border:none; color:rgba(255,255,255,.6); padding:10px 22px; cursor:pointer; transition:color .25s; }
-.btn-bracket-light::before, .btn-bracket-light::after { content:''; position:absolute; top:0; bottom:0; width:0; border:1.5px solid var(--amber); opacity:0; transition:width .32s var(--ease), opacity .15s; }
-.btn-bracket-light::before { left:0; border-right:none; }
-.btn-bracket-light::after { right:0; border-left:none; }
-.btn-bracket-light:hover::before, .btn-bracket-light:hover::after { width:12px; opacity:1; }
-.btn-bracket-light:hover { color:#fff; }
+.btn-bracket-light {
+  display: inline-flex; align-items: center;
+  font-family: var(--fb); font-size: 13px; letter-spacing: .05em;
+  background: none; border: none; color: rgba(255,255,255,.7);
+  padding: 10px 0; cursor: pointer; transition: color .25s;
+  white-space: nowrap;
+}
+.btn-bracket-light::after {
+  content: '→'; display: inline-block; margin-left: 6px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.btn-bracket-light:hover { color: #fff; }
+.btn-bracket-light:hover::after { opacity: 1; transform: translateX(0); }
 
 /* Reveal */
 .reveal { opacity:0; transform:translateY(32px); transition:opacity .85s var(--ease), transform .85s var(--ease); }
@@ -451,6 +467,37 @@ footer { background:var(--moss); }
           <div class="gh-title">Vindruvor & druvjuice</div>
           <div class="gh-desc">I vindruvsgrowthuset kan man sitta under rankorna. Varje höst pressar vi vår uppskattade druvjuice.</div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LÄCKÖ KÖTT -->
+<section class="section-alt">
+  <div class="wrap">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;">
+      <div style="background:var(--s0); border:1px solid var(--border); border-radius:20px; padding:48px 40px; text-align:center;" class="reveal">
+        <div style="font-family:var(--fb); font-size:9px; text-transform:uppercase; letter-spacing:.18em; color:var(--amber); margin-bottom:16px;">Vårt partnerskap</div>
+        <div style="font-family:var(--fd); font-size:clamp(28px,3vw,40px); font-weight:300; color:var(--ink); line-height:1.1; margin-bottom:12px;">Läckö Kött</div>
+        <div style="width:40px; height:1px; background:var(--amber); margin:0 auto 20px;"></div>
+        <p style="font-family:var(--fb); font-size:14px; color:var(--ink-3); line-height:1.7; margin-bottom:28px;">Lokalt uppfött &amp; slaktat kött från trakterna kring Läckö slott — levererat direkt till vårt kök.</p>
+        <div style="display:flex; justify-content:center; gap:32px;">
+          <div style="text-align:center;">
+            <div style="font-family:var(--fd); font-size:28px; font-weight:300; color:var(--moss);">100%</div>
+            <div style="font-family:var(--fb); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); margin-top:4px;">Lokalt</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:var(--fd); font-size:28px; font-weight:300; color:var(--moss);">~15 km</div>
+            <div style="font-family:var(--fb); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); margin-top:4px;">Från oss</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="amber-rule"><div class="amber-rule-line"></div><span class="amber-rule-text">Partnerskap</span></div>
+        <h2 style="margin-bottom:24px;">Köttet kommer från grannen</h2>
+        <p class="body-text" style="margin-bottom:20px;">Vi är stolta över att servera kött från Läckö Kött — ett stenkast härifrån vid Läckö slott. De arbetar med noggrant utvalda lokala producenter och slakt i liten skala, vilket märks på varje tallrik.</p>
+        <p class="body-text" style="margin-bottom:28px;">Närheten betyder att vi vet exakt var råvaran kommer ifrån. Ingen lång transportväg, inget onödigt mellanlager — bara äkta, välskött kött från Västergötland direkt till köket.</p>
+        <a href="https://lackokott.se" target="_blank" rel="noopener" class="btn-bracket">Besök Läckö Kött</a>
       </div>
     </div>
   </div>
